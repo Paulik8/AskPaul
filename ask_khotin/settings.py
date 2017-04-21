@@ -36,8 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-   # 'ask_khotin',
+    'django.contrib.staticfiles',	
+    'ask_khotin',
 ]
 
 MIDDLEWARE = [
@@ -106,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Chicago'
 
 USE_I18N = True
 
@@ -119,6 +119,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 #MEDIA_ROOT = os.path.join(BASE_DIR, "uploads"),
 #MEDIA_ROOT = "/uploads/"
-STATIC_URL = '/static/'
-
+STATIC_URL = '/Static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'Static'),
+)
 #
