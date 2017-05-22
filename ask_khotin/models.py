@@ -3,6 +3,7 @@ from django.utils import timezone
 from datetime import timedelta
 from django.db import models
 from django.contrib.auth.models import User
+from .paginator import PaginatorClass
 
 GOOD_RATING = 10
 
@@ -15,6 +16,11 @@ class QuestionManager(models.Manager):
 		return self.filter(rating__gt=GOOD_RATING).order_by(['-rating'])
 	def new_questions(self):
 		return self.order_by('-created_at')
+class Question2Manger(models.Manager):
+	def getQuestionsBy(self,request):
+		questions = Question2.objects.all()
+		page = request.GET.get('page')
+		return render(request, 'base.html', {'questions': questions,'paginator':PaginatorClass.paginate(questions,page)})
 
 class Question(models.Model):
 	title = models.CharField(max_length=60)

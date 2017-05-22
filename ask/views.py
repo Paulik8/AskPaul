@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 # Create your views here.
 from django.views.generic.base import TemplateView
+from ask_khotin.paginator import PaginatorClass
 
 class AboutView(TemplateView):
 	template_name = "about.html"
@@ -55,7 +56,8 @@ def question_list(request):
 #			'title': 'title' + str(i),
 #			'text': 'text' + str(i),
 #		})
-	return render(request, 'base.html', {'questions': questions})	
+	page = request.GET.get('page')
+	return render(request, 'base.html', {'questions': questions, 'paginator':PaginatorClass.paginate(questions, page)})	
 
 class LoginView(TemplateView):
 	template_name="login.html"
