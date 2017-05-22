@@ -3,7 +3,7 @@ from django.utils import timezone
 from datetime import timedelta
 from django.db import models
 from django.contrib.auth.models import User
-from .paginator import PaginatorClass
+from ask.paginator import PaginatorClass
 
 GOOD_RATING = 10
 
