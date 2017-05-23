@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.utils import timezone
-from ask_khotin.models import Question2
+from ask.models import Question2
 from ask.forms import NameForm
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -57,7 +57,7 @@ def question_list(request):
 #			'text': 'text' + str(i),
 #		})
 	page = request.GET.get('page')
-	return render(request, 'base.html', {'questions': questions, 'paginator':PaginatorClass().paginate(questions, page)})	
+	return render(request, 'pagination.html', {'questions': questions, 'paginator':PaginatorClass().paginate(questions, page)})	
 
 class LoginView(TemplateView):
 	template_name="login.html"

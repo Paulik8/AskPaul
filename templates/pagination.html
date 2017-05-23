@@ -1,14 +1,93 @@
-
-<p>TEST</p>
-<div style="margin-left:20px" class="pagination">
-  {% if paginator.number == 1 and paginator.paginator.num_pages == 1 %}{% else %}
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+{% for question in paginator%}
+		  <div class="col-md-6">
+			<div class="panel panel-default">
+  			<div class="panel-body">
+					<div class="col-md-2">
+						<img width="80" height="80" src="{% static  'hammer.png' %}" alt="image" class="img-rounded">
+							<div class="panel panel-default">
+							<div class="panel-body2">	
+								<p class="TextIn"><a href="/"><img class="MyImg2" width="13" height="13" src="{% static 'arrow_up.png' %}" align="right"></a>5<br><a href="/"><img class="MyImg2" width="13" height="13" src="{% static 'arrow_down.png' %}" align="right"></a></p>	
+							</div>
+						</div>					
+					</div>							
+					<div class="col-md-10 col-md-offset-0">
+						<a href="/" class="MainQuestion"><h1>Контрольный вопрос</h1></a>
+						<p style="color:#a94442">{{question.text}}</p>
+						<p class="Textpoint">Данный термин переводится как «печенье», ибо поскольку это название лишь 
+  сбивает с толку, его оставляют без перевода. Cookie...</p>
+							<a href="/">answer (3)</a>
+							<div class="Probel">
+							<nobr>Tags:</nobr>
+							
+							<a href="/">black-jack</a>
+							<a href="/">bender</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+  			<div class="panel-body">
+					<div class="col-md-2">
+						<img width="80" height="80" src="{% static  'hammer.png' %}" alt="image" class="img-rounded">
+							<div class="panel panel-default">
+							<div class="panel-body2">	
+								<p class="TextIn"><a href="/"><img class="MyImg2" width="13" height="13" src="{% static 'arrow_up.png' %}" align="right"></a>5<br><a href="/"><img class="MyImg2" width="13" height="13" src="{% static 'arrow_down.png' %}" align="right"></a></p>	
+							</div>
+						</div>					
+					</div>				
+					<div class="col-md-10 col-md-offset-0">
+						<a href="/" class="MainQuestion"><h1>Контрольный вопрос</h1></a>
+						<p class="Textpoint">Данный термин переводится как «печенье», ибо поскольку это название лишь 
+  сбивает с толку, его оставляют без перевода. Cookie...</p>
+							<a href="/">answer (3)</a>
+							<div class="Probel">
+							<nobr>Tags:</nobr>
+							
+							<a href="/">black-jack</a>
+							<a href="/">bender</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+  			<div class="panel-body">
+					<div class="col-md-2">
+						<img width="80" height="80" src="{% static  'hammer.png' %}" alt="image" class="img-rounded">
+							<div class="panel panel-default">
+							<div class="panel-body2">	
+								<p class="TextIn"><a href="/"><img class="MyImg2" width="13" height="13" src="{% static 'arrow_up.png' %}" align="right"></a>5<br><a href="/"><img class="MyImg2" width="13" height="13" src="{% static 'arrow_down.png' %}" align="right"></a></p>
+							</div>
+						</div>					
+					</div>					
+					<div class="col-md-10 col-md-offset-0">
+						<a href="/" class="MainQuestion"><h1>Контрольный вопрос</h1></a>
+						<p class="Textpoint">Данный термин переводится как «печенье», ибо поскольку это название лишь 
+  сбивает с толку, его оставляют без перевода. Cookie...</p>
+							<a href="/">answer (3)</a>
+							<div class="Probel">
+							<nobr>Tags:</nobr>
+							
+							<a href="/">black-jack</a>
+							<a href="/">bender</a>
+						</div>
+					</div>
+				</div>
+			</div>
+<!--		</div>-->
+{%endfor%}
+{% endblock %}
+{% block pag %}
+<div class="pagination">
   <span class="step-links">
           {% if paginator.has_previous %}
-              <button onClick="location.href='?page={{ paginator.previous_page_number }}'" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Предыдущая</button>
+              <a href="?page={{paginator.previous_page_number}}">Previous</a>
           {% endif %}
           <span class="current">Страница {{ paginator.number }} из {{ paginator.paginator.num_pages }}
           </span> {% if paginator.has_next %}
-  <button style="margin-right: 15px" onClick="location.href='?page={{ paginator.next_page_number }}'" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Следующая</button> {% endif %}
+ <a href = "?page={{paginator.next_page_number }}">Следующая</a> {% endif %}
   </span>
-  {% endif %}
 </div>
+{% endblock %}
