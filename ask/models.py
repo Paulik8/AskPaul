@@ -25,7 +25,7 @@ class Question2Manger(models.Manager):
 class Question(models.Model):
 	title = models.CharField(max_length=60)
 	text = models.TextField(default=0)
-	author = models.ForeignKey(User, default=0)
+	user = models.ForeignKey('Profile', default=0)
 	rating = models.IntegerField(default=0)
 	created_at = models.DateTimeField(default=datetime.now)
 	tags = models.ManyToManyField('Tag')	
@@ -48,4 +48,12 @@ class Question2(models.Model):
 
 	def __str__(self):
 		return self.text
+
+class Answer(models.Model):
+	user = models.ForeignKey('Profile')
+	question = models.ForeignKey('Question')
+	text = models.TextField()
+	rating = models.IntegerField()
+	correct = models.BooleanField()
+	pub_date = models.DateTimeField(auto_now_add=True)
 	
