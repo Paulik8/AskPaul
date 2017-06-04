@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 class PaginatorClass():
-	def paginate(self, data, page):
+	@staticmethod
+	def paginate(data, page):
 		paginator = Paginator(data, 1)
 		try:
 			paginator = paginator.page(page)

@@ -57,7 +57,7 @@ def question_list(request):
 #			'text': 'text' + str(i),
 #		})
 	page = request.GET.get('page')
-	return render(request, 'pagination.html', {'questions': questions, 'paginator':PaginatorClass().paginate(questions, page)})	
+	return render(request, 'base_auth.html', {'questions': questions, 'paginator':PaginatorClass().paginate(questions, page)})	
 
 class LoginView(TemplateView):
 	template_name="login.html"

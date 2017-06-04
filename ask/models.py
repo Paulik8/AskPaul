@@ -4,40 +4,72 @@ from datetime import timedelta
 from django.db import models
 from django.contrib.auth.models import User
 from ask.paginator import PaginatorClass
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.http import Http404
+from django.db.models import Count
 
 GOOD_RATING = 10
+class Question(models.Model):
+    user = models.ForeignKey('Profile')
+    title = models.CharField(max_length=255)
+    text = models.TextField()
+    rating = models.IntegerField(default=0)
+    pub_date = models.DateTimeField(default=timezone.now)
+    tag = models.ManyToManyField('Tag')
+
+    def __str__(self):
+        return "{} {} {} {}".format(self.id, self.title, self.rating, self.pub_date)
+
+
+class Answer(models.Model):
+    user = models.ForeignKey('Profile')
+    question = models.ForeignKey('Question')
+    text = models.TextField()
+    rating = models.IntegerField(default=0)
+    correct = models.BooleanField(default=False)
+    pub_date = models.DateTimeField(default=timezone.now)
+
+    def notify(self):
+        data = {'id': self.id, 'user': self.user.id, 'text': self.text, 'rating': self.rating, 'correct': self.correct, }
+
+    def __str__(self):
+        return "{} {}".format(self.question.title, self.pub_date)
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return "{}".format(self.name)
+
 
 class Profile(models.Model):
-	avatar = models.ImageField()#uploads_to="avatars/"
-	user = models.OneToOneField(User)
+    user = models.OneToOneField(User)
+    nickname = models.CharField(max_length=255, default=0)
+    #avatar = models.ImageField(upload_to='uploads', null=True, blank=True)
 
-class QuestionManager(models.Manager):
-	def best_questions(self):
-		return self.filter(rating__gt=GOOD_RATING).order_by(['-rating'])
-	def new_questions(self):
-		return self.order_by('-created_at')
+    def __str__(self):
+        return "{}".format(self.nickname)
+
+
+class Like(models.Model):
+    content_type = models.ForeignKey(ContentType, related_name="content_type_likes")
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    user = models.ForeignKey('Profile')
+    like = models.BooleanField()
+
+    def __str__(self):
+        return "{} {} {} {} {}".format(self.content_type, self.user, self.object_id, self.content_object, self.like)
+
+
 class Question2Manger(models.Manager):
 	def getQuestionsBy(self,request):
 		questions = Question2.objects.all()
 		page = request.GET.get('page')
 		return render(request, 'base.html', {'questions': questions,'paginator':PaginatorClass.paginate(questions,page)})
-
-class Question(models.Model):
-	title = models.CharField(max_length=60)
-	text = models.TextField(default=0)
-	user = models.ForeignKey('Profile', default=0)
-	rating = models.IntegerField(default=0)
-	created_at = models.DateTimeField(default=datetime.now)
-	tags = models.ManyToManyField('Tag')	
-	objects = QuestionManager()
-		
-	def nice_title(self):
-		return self.title + '?'
-	def __unicode__(self):	
-		return u'{0} - {1}'.format(self.id, self.title)
-
-class Tag(models.Model):
-	name = models.CharField(max_length=60)
 
 class Question2(models.Model):
 	text = models.TextField(max_length=200, null=True)
@@ -49,11 +81,3 @@ class Question2(models.Model):
 	def __str__(self):
 		return self.text
 
-class Answer(models.Model):
-	user = models.ForeignKey('Profile')
-	question = models.ForeignKey('Question')
-	text = models.TextField()
-	rating = models.IntegerField()
-	correct = models.BooleanField()
-	pub_date = models.DateTimeField(auto_now_add=True)
-	
