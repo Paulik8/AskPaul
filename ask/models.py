@@ -63,21 +63,3 @@ class Like(models.Model):
 
     def __str__(self):
         return "{} {} {} {} {}".format(self.content_type, self.user, self.object_id, self.content_object, self.like)
-
-
-class Question2Manger(models.Manager):
-	def getQuestionsBy(self,request):
-		questions = Question2.objects.all()
-		page = request.GET.get('page')
-		return render(request, 'base.html', {'questions': questions,'paginator':PaginatorClass.paginate(questions,page)})
-
-class Question2(models.Model):
-	text = models.TextField(max_length=200, null=True)
-	published_date = models.DateTimeField('date published', null=True)
-	def publish(self):
-		self.published_date = timezone.now()
-		self.save()
-
-	def __str__(self):
-		return self.text
-

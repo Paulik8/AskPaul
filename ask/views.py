@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.utils import timezone
-from ask.models import Question2
+from ask.models import Question
 from ask.forms import NameForm
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -48,7 +48,7 @@ def get_name(request):
     return render(request, 'name.html', {'form': form})
 
 def question_list(request):
-	questions = Question2.objects.all()
+	questions = Question.objects.all()
 #	questions = Question2.objects.order_by('published_date')
 #	questions = []
 #	for i in xrange(1,30):
